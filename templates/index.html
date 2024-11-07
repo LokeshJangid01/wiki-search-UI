@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI with Tailwind</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 ">
+    <div class="flex justify-center"><h1 class="text-4xl font-bold text-blue-600">Welcome to the Wikipedia Search API with FastAPI!</h1></div>
+    
+
+    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
+            <!-- Form -->
+            <form action="/search/" method="post" class="space-y-4">
+                <label for="keyword" class="block text-lg font-semibold">Search:</label>
+                <input type="text" id="keyword" name="keyword" required class="p-2 border border-gray-300 rounded">
+                <button type="submit" class="w-full py-2 bg-blue-500 text-white rounded">Search</button>
+            </form>
+        
+            {% if title %}
+                <div class="mt-6">
+                    <h2 class="text-xl font-semibold">Result for "{{ title }}"</h2>
+                    <p class="mt-2">{{ summary }}</p>
+                    
+                    <!-- Favorite button form, sending the keyword to the /favorites endpoint -->
+                    <form action="/favorites/" method="post">
+                        <input type="hidden" name="keyword" value="{{ keyword }}">
+                        <button type="submit" class="bg-yellow-500 text-white py-2 px-4 rounded mt-4">Add to Favorites</button>
+                    </form>
+                </div>
+            {% elif summary %}
+                <p>{{ summary }}</p> <!-- For 'Article not found' message -->
+            {% endif %}
+            <!-- Favorites List Button -->
+        <div class="mt-8 text-center">
+            <a href="/favorites" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                Go to Favorites List
+            </a>
+        </div>
+        </div>
+    </div>
+    <script>
+        // Display a popup if the article is already in favorites
+        {% if article_already_favorite %}
+            alert("This article is already in your favorites list.");
+        {% endif %}
+    </script>
+    
+
+    
+    
+</body>
+</html>
